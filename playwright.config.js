@@ -16,6 +16,7 @@ import { on } from 'process';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  timeout: 10000 * 1000,
   testDir: './tests',
   /* Run tests in files in parallel */
  
@@ -36,7 +37,8 @@ export default defineConfig({
     preferredTheme: "light", 
     screenshots:on,
     video:on,
-    trace:true
+    trace:true,
+    //preferredTheme: "light"
   }],
   ["dot"]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -53,7 +55,9 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] ,
-        headless: false
+        headless: false,
+        screenshot:"on",
+        video:"on",
       },
     },
 
