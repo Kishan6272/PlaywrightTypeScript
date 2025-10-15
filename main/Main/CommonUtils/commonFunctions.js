@@ -23,7 +23,23 @@ async clickWithTimeout(locator, timeoutMs) {
       await this.page.screenshot({ path: `failure-click-timeout.png` });
       throw error; // Re-throw the error to ensure the test fails
     }
-  }
+  },
+
+
+  async fillWithTimeout(locator, value, timeoutMs) {
+        // ... (function implementation from above) ...
+        console.log(`[Custom Action] Attempting to fill element with value "${value}" and timeout: ${timeoutMs}ms`);
+
+        try {
+            await locator.fill(value, { timeout: timeoutMs });
+            console.log(`[Custom Action] Fill successful.`);
+        } catch (error) {
+            console.error(`[Custom Error] Fill failed after ${timeoutMs}ms.`);
+            // Since 'this.page' is available in a POM, the screenshot works.
+            await this.page.screenshot({ path: `failure-fill-timeout.png` });
+            throw error; 
+        }
+    }
 
 
 }

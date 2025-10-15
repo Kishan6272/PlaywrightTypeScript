@@ -13,15 +13,16 @@ test('Annotation11 and Tags test', async ({ page }) => {
 });
 
 
-test.fixme('Annotation and Fixme test', async ({ page }) => {
+test.fixme('Annotation and Fixme test @smoke', async ({ page }) => {
   // Your test code here
   console.log("kishann");
 });
 
 
-test.slow('Annotation and slow test', async ({ page }) => {
+test('Slow Annotation and slow test  @smoke', async ({ page }) => {
   // Your test code here
   console.log("kishann");
+  test.slow();
 });
 
 
