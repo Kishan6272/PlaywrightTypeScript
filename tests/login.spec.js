@@ -44,7 +44,7 @@ test.beforeEach('Hooks in playwright', async ({ page }) => {
  
 // });
 
-// test.afterAll('Hooks in playwright', async () => {
-//   console.log("This will execute after All test");
+test.afterAll('Hooks in playwright', async () => {
+   console.log("This will execute after All test");
  
-// });
+ });

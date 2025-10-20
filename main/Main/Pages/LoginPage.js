@@ -124,13 +124,14 @@ class LoginPage{
 
              // payment Info Page
              
-             this.policyOwnerButton=page.locator("//button[contains(text(),' Policy Owner ')]");
-             this.firstPaymentMode=page.locator("//label[contains(text(),' Please select the First Premium Payment Mode ')]/..//input");
-             this.chequePaymentSelection=page.locator("//span[contains(text(),'Cheque Payment')]");
+             this.policyOwnerButton=page.locator("//*[text()=' Policy Owner ']");
+             this.firstPaymentMode=page.locator("//*[contains(text(),' Please select the First Premium Payment Mode ')]/..//input");
+             this.chequePaymentSelection=page.locator("//*[contains(text(),'Cheque Payment')]");
              this.chequeNo=page.locator("//input[@formcontrolname='ChequeNo']");
              this.chequeDate=page.locator("//input[@formcontrolname='ChequeDate']");
              this.renewalPaymentMethod=page.locator("//label[contains(text(),'Renewal Payment Method')]/..//input");
-             this.chequeSelection=page.locator("//span[contains(text(),'Cheque/Demand Draft/Cash')]");
+             this.chequeSelection=page.locator("//*[contains(text(),'Cheque/Demand Draft/Cash')]");
+             this.OkButtonAfterCheque=page.locator("//*[contains(text(),'OK')]");
 
 
 
@@ -236,7 +237,7 @@ class LoginPage{
           await clickWithTimeout(this.customerJobProfileSelection,20000);          
           await fillWithTimeout(this.customerAnnualIncome,"500000",20000);
          await clickWithTimeout(this.customerWorkPlace,20000);
-         await this.customerWorkPlace.pressSequentially("Mumbai", { delay: 500 });
+         await this.customerWorkPlace.pressSequentially("MumbaiDelhi", { delay: 500 });
          await this.saveAndProceedButton.click();
          
           console.log("Personal info Customer Profile details filled successfully");
@@ -323,11 +324,6 @@ class LoginPage{
              await clickWithTimeout(this.numberOfNomineeSelection,20000);
             await clickWithTimeout(this.nomineeRelationWithPolicyInsured,20000);
             await clickWithTimeout(this.nomineeRelationWithPolicyInsuredSelection.first(),20000);
-            await this.page.pause();
-           // await fillWithTimeout(this.nomineeFirstName,'TestNomineeFirst',20000);
-           // await this.nomineeFirstName.pressSequentially("Mumbai", { delay: 500 })
-            //await this.page.pause();
-           // await fillWithTimeout(this.nomineeLastName,'TestNomineeLast',20000);
            await clickWithTimeout(this.dob,20000);
             await fillWithTimeout(this.dob,'01-01-1970',20000);
             
@@ -363,7 +359,6 @@ class LoginPage{
             await clickWithTimeout(this.seventySevenSelection,20000);  
             await clickWithTimeout(this.saveAndProceedButton,20000);
             await clickWithTimeout(this.saveAndProceedButton,20000);
-            await this.page.pause();
             console.log("In Lifestyle And Health Page action filled successfully");       
          } catch(error){   
             console.log("Error In Lifestyle And Health Page action section filled"+error);
@@ -393,33 +388,22 @@ class LoginPage{
         async paymentInfoPageAction(){
          try{
 
-            //   this.policyOwnerButton=page.locator("//button[contains(text(),' Policy Owner ')]");
-            //  this.firstPaymentMode=page.locator("//label[contains(text(),' Please select the First Premium Payment Mode ')]/..//input");
-            //  this.chequePaymentSelection=page.locator("//span[contains(text(),'Cheque Payment')]");
-            //  this.chequeNo=page.locator("//input[@formcontrolname='ChequeNo']");
-            //  this.chequeDate=page.locator("//input[@formcontrolname='ChequeDate']");
-            //  this.renewalPaymentMethod=page.locator("//label[contains(text(),'Renewal Payment Method')]/..//input");
-            //  this.chequeSelection=page.locator("//span[contains(text(),'Cheque/Demand Draft/Cash')]");
-             
-
-
             await clickWithTimeout(this.policyOwnerButton,20000);
             await clickWithTimeout(this.saveAndProceedButton,20000);
+             await this.page.pause();
             await clickWithTimeout(this.firstPaymentMode,20000);
             await clickWithTimeout(this.chequePaymentSelection,20000);
-            await clickWithTimeout(this.chequeNo,20000);
+           // await clickWithTimeout(this.chequeNo,20000);
             await fillWithTimeout(this.chequeNo,"123456",20000);
-            await clickWithTimeout(this.chequeDate,20000);
+          //  await clickWithTimeout(this.chequeDate,20000);
             await fillWithTimeout(this.chequeDate,"01-oct-2025",20000);
             await clickWithTimeout(this.saveAndProceedButton,20000); 
             await clickWithTimeout(this.renewalPaymentMethod,20000);
             await clickWithTimeout(this.chequeSelection,20000);
-            await clickWithTimeout(this.renewalPaymentMethod,20000);
-            await clickWithTimeout(this.chequeSelection,20000);
-            await clickWithTimeout(this.okButton,20000);
+            await clickWithTimeout(this.OkButtonAfterCheque,20000);
             await clickWithTimeout(this.saveAndProceedButton,20000);
             await clickWithTimeout(this.saveAndProceedButton,20000);
-            await this.page.pause();
+           
            
           console.log("Sucessfull payment Info Page Action");
           
