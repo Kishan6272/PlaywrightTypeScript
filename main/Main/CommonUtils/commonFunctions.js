@@ -8,6 +8,26 @@ module.exports = {
    */                                                               
 
 
+  /**
+ * Generates a random alphanumeric name/string with an optional prefix.
+ * @param {number} length The length of the random part (default is 6).
+ * @param {string} prefix The prefix to use (default is 'Test_').
+ * @returns {string} A unique string like "Test_aBc12X_1739504800000".
+ */
+async generateRandomName(length = 6, prefix = 'Test_') {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomPart = '';
+    const charactersLength = characters.length;
+    
+    for (let i = 0; i < length; i++) {
+        // Append a random character
+        randomPart += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    
+    // Add a unique timestamp for extra assurance
+    return randomPart;
+},
+
 async clickWithTimeout(locator, timeoutMs) {
     console.log(`[Custom Action] Attempting to click element with timeout: ${timeoutMs}ms`);
 
@@ -40,6 +60,21 @@ async clickWithTimeout(locator, timeoutMs) {
             throw error; 
         }
     }
+
+
+
+//   async generateRandomName(length = 8) {
+//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//   let result = 'TestUser_';
+//   const charactersLength = characters.length;
+//   for (let i = 0; i < length; i++) {
+//     // Append a random character from the 'characters' string
+//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
+//   // Add a timestamp for extra uniqueness
+//   result += '_';
+//   return result;
+// }  
 
 
 }
