@@ -8,9 +8,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
     "@playwright/test": "^1.55.1",
     "@types/node": "^24.6.2",
     "ortoni-report": "^4.0.1"
-    
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
   }
 }

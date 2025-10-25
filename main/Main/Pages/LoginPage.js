@@ -1,12 +1,18 @@
 const { expect } = require("@playwright/test");
 const { clickWithTimeout, fillWithTimeout } = require("../CommonUtils/commonFunctions");
-const { log, time } = require("node:console");
+const { time } = require("node:console");
+const { readDataFromExcelFile } = require("../CommonUtils/ExcelHelper.js");
 //import { test } from "@playwright/test";
 
 class LoginPage{
 
     constructor(page){
         this.page = page;
+
+        //Excel Data
+         this.ExcelDataProvider = readDataFromExcelFile('Century_Data.xlsx');
+
+
         this.myAccount = page.locator("//span[contains(text(),'AddOns')]");
 
          this.later=page.locator("//button[text()='Later']");
@@ -143,25 +149,43 @@ class LoginPage{
     }
 
 
-    async loginToApplication(){
+   // const ExcelDataProvider = readDataFromExcelFile('Century_Data.xlsx');
+
+    async loginToApplication(i){
       try{
-        await fillWithTimeout(this.employeeId,"3159499",20000);
-        await fillWithTimeout(this.password,"123456",20000);
+         let employeeID = this.ExcelDataProvider[i].User_ID;
+         console.log("-------------------------------"+employeeID);
+         
+         let password = this.ExcelDataProvider[i].Password;
+         console.log(this.ExcelDataProvider.length);
+         for(let i=0;i<this.ExcelDataProvider.length;i++){
+            const row = this.ExcelDataProvider[i];
+           // console.log(`Processing row: ${JSON.stringify(row)}`);
+          employeeID = row.User_ID;
+          password = row.Password;
+         console.log(employeeID);
+         console.log(password);
+         }
+         
+        await fillWithTimeout(this.employeeId,this.ExcelDataProvider[i].User_ID.toString(),20000);
+        await fillWithTimeout(this.password,this.ExcelDataProvider[i].Password.toString(),20000);
         await clickWithTimeout(this.signInButton,20000);
        // await this.page.waitForTimeout(5000);
         for(let i=0;i<=5;i++){
       let j = (i+1).toString();
        await this.page.locator(`//*[@id='otp-input-${i}']`).fill(j);
     }
-        console.log("login successfully");
-        console.log("Title verified");
+        console.log(" ✅ login successfully");
+        console.log(" ✅ Title verified");
+
+   
 
         }catch(error){
         console.log("Error in onboard new customer"+error);
        }
     }
 
-    async onboardNewCustomerFillForm(){
+    async onboardNewCustomerFillForm(i){
         try{
          await this.page.waitForTimeout(5000);
         await clickWithTimeout(this.onboardNewCustomerButton,3000);
@@ -175,7 +199,7 @@ class LoginPage{
        }
     }
 
-     async onboardNewCustomerFillForm(){
+     async onboardNewCustomerFillForm(i){
         try{
          await this.page.waitForTimeout(5000);
         await clickWithTimeout(this.onboardNewCustomerButton,30000);
@@ -188,20 +212,20 @@ class LoginPage{
        }
     }
 
-     async knowYourCustomerForm(){
+     async knowYourCustomerForm(i){
         try{       
-        await fillWithTimeout(this.customerEmailID,"customer@example.com",20000);
-        await fillWithTimeout(this.customerMobileNumber,"9876543210",20000);
+        await fillWithTimeout(this.customerEmailID,this.ExcelDataProvider[i].Customer_EmailID.toString(),20000);
+        await fillWithTimeout(this.customerMobileNumber,this.ExcelDataProvider[i].Customer_MobileNo.toString(),20000);
         await clickWithTimeout(this.quicklyFillFromAadhaarButton,20000);
          await this.page.waitForTimeout(2000);
-        await fillWithTimeout(this.aadharInputTextBox,"222222222222",20000);
+        await fillWithTimeout(this.aadharInputTextBox,this.ExcelDataProvider[i].Adhar_No.toString(),20000);
         await clickWithTimeout(this.checkBox,20000);
         await clickWithTimeout(this.generateCodeButton,20000);
         for(let i=0;i<=5;i++){
        await this.page.locator(`//*[@id='otp-input-${i}']`).fill("2");
     }
          await clickWithTimeout(this.verifyCodeButton,20000);
-         await fillWithTimeout(this.customersPansDetails,"AAAAA1234A",20000);
+         await fillWithTimeout(this.customersPansDetails,this.ExcelDataProvider[i].Pancard.toString(),20000);
          await clickWithTimeout(this.saveAndProceedButton,20000);
         console.log("Know your customer form filled successfully");
 
@@ -210,7 +234,7 @@ class LoginPage{
        }
     }
 
-    async personalInfoBasicDetails(){
+    async personalInfoBasicDetails(i){
          try{  
          //   await this.page.waitForSelector(this.fathersFirstNameWait,{state:'visible',timeout:30000});  
          await fillWithTimeout(this.fathersFirstName,"John",30000);
@@ -247,11 +271,11 @@ class LoginPage{
     }
 
 
-    async bankDetailsSelection(){
+    async bankDetailsSelection(i){
          try{   
             console.log("In bank details selection"); 
-          await fillWithTimeout(this.bankAccountNumber,"1234567890",20000);
-          await fillWithTimeout(this.confirmBankAccountNumber,"1234567890",20000);
+          await fillWithTimeout(this.bankAccountNumber,"32441345345",20000);
+          await fillWithTimeout(this.confirmBankAccountNumber,"32441345345",20000);
           await fillWithTimeout(this.bankIFSCcode,"SBIN0008549",20000);
           await clickWithTimeout(this.validateButton,20000);
           await clickWithTimeout(this.noButton,20000);
@@ -264,7 +288,7 @@ class LoginPage{
          }
     }
 
-    async needAnalysisAndQuoteSection(){
+    async needAnalysisAndQuoteSection(i){
          try{   
             console.log("In need analysis and quote section"); 
           await clickWithTimeout(this.saveAndProceedButton,20000);
@@ -294,7 +318,7 @@ class LoginPage{
 
     
 
-     async additionalInfoPageAction(){
+     async additionalInfoPageAction(i){
          try{   
             console.log("In additional info page action"); 
             await clickWithTimeout(this.validateButton,20000);
@@ -318,7 +342,7 @@ class LoginPage{
          }
       }
 
-      async nomineePageInfo(){
+      async nomineePageInfo(i){
          try{
              await clickWithTimeout(this.numberOfNominee,20000);
              await clickWithTimeout(this.numberOfNomineeSelection,20000);
@@ -331,7 +355,7 @@ class LoginPage{
             await fillWithTimeout(this.nomineeEmailID,'TestNomineeEmail@test.com',20000); 
             await fillWithTimeout(this.nomineeAccountNumber,'1234567890',20000); 
             await clickWithTimeout(this.bankAccountType,20000);
-            await fillWithTimeout(this.nomineeIfscCode,'SBIN0008549',20000);
+            await fillWithTimeout(this.nomineeIfscCode,'ICIC0000001',20000);
             await clickWithTimeout(this.saveButton,20000);
             await clickWithTimeout(this.saveAndProceedButton,20000);
 
@@ -345,7 +369,7 @@ class LoginPage{
       }
 
 
-      async lifestyleAndHealthPageAction(){
+      async lifestyleAndHealthPageAction(i){
          try{
             await clickWithTimeout(this.saveAndProceedButton,20000);
             await clickWithTimeout(this.saveAndProceedButton,20000);         
@@ -365,7 +389,7 @@ class LoginPage{
          }
       }
 
-      async agentPageAction(){
+      async agentPageAction(i){
          try{
             await clickWithTimeout(this.agentCode,20000);      
             await clickWithTimeout(this.agentcodeSelection,20000);
@@ -385,7 +409,7 @@ class LoginPage{
          }  
       }   
 
-        async paymentInfoPageAction(){
+        async paymentInfoPageAction(i){
          try{
 
             await clickWithTimeout(this.policyOwnerButton,20000);
@@ -414,7 +438,7 @@ class LoginPage{
       }   
 
 
-      async uploadDocumentsPageAction(){
+      async uploadDocumentsPageAction(i){
          try{
             await clickWithTimeout(this.saveAndProceedButton,20000);
             await clickWithTimeout(this.okButton,20000);
